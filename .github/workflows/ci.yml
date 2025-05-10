@@ -22,8 +22,5 @@ jobs:
       - name: Instalar dependências
         run: npm install
 
-      - name: Rodar migrations
-        run: npm run migrate
-
       - name: Executar testes
         run: npm run test
