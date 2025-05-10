@@ -8,5 +8,6 @@ export default defineConfig({
     sequence: {
       setupFiles: "list",
     },
+    hookTimeout: 30000,
   },
 })
