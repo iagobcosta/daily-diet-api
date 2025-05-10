@@ -9,9 +9,9 @@ beforeAll(async () => {
   console.log("✅ beforeAll finalizado")
 })
 
-beforeEach(async () => {
-  execSync("npm run rollback && npm run migrate")
-})
+// beforeEach(async () => {
+//   execSync("npm run rollback && npm run migrate")
+// })
 
 afterAll(async () => {
   await app.close()
