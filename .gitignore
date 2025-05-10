@@ -1,4 +1,3 @@
 node_modules
 src/db/database-test.db
 .env
-.env.test
