@@ -6,7 +6,7 @@ export const knexConfig = {
   client: env.DATABASE_CLIENT,
   connection:
     env.DATABASE_CLIENT === "sqlite3"
-      ? { filename: env.DATABASE_URL }
+      ? { filename: "./db/test.sqlite" }
       : env.DATABASE_URL,
   migrations: {
     directory: "./src/db/migrations",
