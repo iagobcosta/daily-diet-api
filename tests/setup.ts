@@ -13,5 +13,5 @@ beforeAll(async () => {
 
 afterAll(async () => {
   await app.close()
-  await db.destroy()
+  // await db.destroy()
 })
