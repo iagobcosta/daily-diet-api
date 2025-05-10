@@ -1,5 +1,6 @@
 import request from "supertest"
 import { app } from "../src/app"
+import { describe, expect, it } from "vitest"
 
 describe("Meals Routes", () => {
   it("deve criar uma refeição para o usuário autenticado", async () => {
@@ -7,6 +8,9 @@ describe("Meals Routes", () => {
       name: "João Diet",
       email: "joao@diet.com",
     })
+
+    expect(createUserResponse.statusCode).toBe(201)
+    expect(createUserResponse.headers["set-cookie"]).toBeDefined()
 
     const cookies = createUserResponse.get("Set-Cookie")
 
