@@ -10,3 +10,7 @@ export const app = Fastify({
 app.register(cookie)
 app.register(userRoutes)
 app.register(mealRoutes)
+
+app.get("/health", async (req, res) => {
+  return res.status(200).send({ status: "ok" })
+})

@@ -76,3 +76,4 @@ jobs:
             docker pull ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
             docker rm -f daily-api || true
             docker run -d --name daily-api -p 3333:3333 --env-file /home/${{ secrets.EC2_USER }}/.env.dev ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
+            docker exec daily-api npm run migrate
