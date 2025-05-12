@@ -13,7 +13,7 @@ COPY . .
 # Compila o projeto TypeScript
 RUN npm run build
 
-# Etapa 2: imagem final para produção (leve e rápida)
+# Etapa 2: imagem final para produção (leve e rápida) 
 FROM node:18-alpine
 
 WORKDIR /app
@@ -22,6 +22,9 @@ WORKDIR /app
 COPY --from=builder /app/package*.json ./
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
+
+# Copiar o arquivo de configuração do knex para o container
+COPY --from=builder /app/knexfile.js ./knexfile.js
 
 # Copia arquivos de ambiente, se necessário
 # COPY .env.production .env.production
