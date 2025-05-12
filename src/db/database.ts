@@ -5,7 +5,7 @@ import { env } from "../env"
 function connectionDatabasePg() {
   return {
     connectionString: env.DATABASE_URL,
-    ssl: env.DATABASE_CLIENT === "pg" ? { rejectUnauthorized: false } : false,
+    ssl: { rejectUnauthorized: false },
   }
 }
 
