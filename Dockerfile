@@ -24,7 +24,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 
 # Copiar o arquivo de configuração do knex para o container
-COPY --from=builder /app/knexfile.js ./knexfile.js
+COPY --from=builder /app/dist/knexfile.js ./knexfile.js
 
 # Copia arquivos de ambiente, se necessário
 # COPY .env.production .env.production
