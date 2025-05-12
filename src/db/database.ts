@@ -1,6 +1,7 @@
 import "dotenv/config"
 import { knex } from "knex"
 import { env } from "../env"
+import path from "node:path"
 
 export const knexConfig = {
   client: env.DATABASE_CLIENT,
@@ -9,7 +10,7 @@ export const knexConfig = {
       ? { filename: env.DATABASE_URL }
       : env.DATABASE_URL,
   migrations: {
-    directory: "./src/db/migrations",
+    directory: path.resolve(__dirname, "../db/migrations"),
     extension: "ts",
   },
   useNullAsDefault: true, // necessário para sqlite
