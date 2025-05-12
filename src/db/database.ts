@@ -4,10 +4,13 @@ import { env } from "../env"
 
 export const knexConfig = {
   client: env.DATABASE_CLIENT,
-  connection:
-    env.DATABASE_CLIENT === "sqlite3"
-      ? { filename: env.DATABASE_URL }
-      : env.DATABASE_URL,
+  connection: {
+    connectionString:
+      env.DATABASE_CLIENT === "sqlite3"
+        ? { filename: env.DATABASE_URL }
+        : env.DATABASE_URL,
+    ssl: env.DATABASE_CLIENT === "pg" ? { rejectUnauthorized: false } : false,
+  },
   migrations: {
     directory:
       env.NODE_ENV === "production" ? "./db/migrations" : "./src/db/migrations",
