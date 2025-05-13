@@ -77,5 +77,5 @@ jobs:
             aws ecr get-login-password | docker login --username AWS --password-stdin ${{ secrets.ECR_REGISTRY }}
             docker pull ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
             docker rm -f  ${{ secrets.ECR_REPOSITORY }} || true
-            docker run -d --name ${{ secrets.ECR_REPOSITORY }} -p 3333:3333 --env-file /home/${{ secrets.EC2_USER }}/.env.dev ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
+            docker run -d --name ${{ secrets.ECR_REPOSITORY }} --network monitor-net -p 3333:3333 --env-file /home/${{ secrets.EC2_USER }}/.env.dev ${{ secrets.ECR_REGISTRY }}/${{ secrets.ECR_REPOSITORY }}:latest
             docker exec ${{ secrets.ECR_REPOSITORY }} npx knex migrate:latest --knexfile ./dist/knexfile.js
