@@ -2,9 +2,13 @@ import { FastifyInstance } from "fastify"
 import { z } from "zod"
 import { randomUUID } from "crypto"
 import { db } from "../db/database"
-import { httpRequestCounter } from "../plugins/metrics"
+import { onRequestMetrics, onResponseMetrics } from "../plugins/metrics"
 
 export async function userRoutes(app: FastifyInstance) {
+  app.addHook("onRequest", async (req) => {
+    await onRequestMetrics(req)
+  })
+
   app.post("/users", async (request, reply) => {
     const createUserBodySchema = z.object({
       name: z.string(),
@@ -32,25 +36,6 @@ export async function userRoutes(app: FastifyInstance) {
   })
 
   app.addHook("onResponse", async (req, reply) => {
-    // fallback completo
-    const rawUrl = req.url
-    const method = req.method
-    const status = reply.statusCode.toString()
-
-    const route =
-      (reply.context?.config?.url as string) ??
-      (req as any).routerPath ??
-      rawUrl ??
-      "unknown"
-
-    console.log("🔥 MÉTRICA", { method, route, status })
-
-    httpRequestCounter
-      .labels({
-        method,
-        route,
-        status,
-      })
-      .inc()
+    await onResponseMetrics(req, reply)
   })
 }
