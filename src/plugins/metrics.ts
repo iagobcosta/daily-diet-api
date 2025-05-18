@@ -3,7 +3,7 @@ import { collectDefaultMetrics, Counter, register } from "prom-client"
 
 collectDefaultMetrics()
 
-const httpRequestCounter = new Counter({
+export const httpRequestCounter = new Counter({
   name: "http_requests_total",
   help: "Total de requisições HTTP por rota, método e status",
   labelNames: ["method", "route", "status"],
@@ -17,15 +17,26 @@ export async function metricsPlugin(app: FastifyInstance) {
   })
 
   // Contar requisições HTTP por rota
-  app.addHook("onResponse", async (request, reply) => {
-    if (request.routerPath) {
-      httpRequestCounter
-        .labels({
-          method: request.method,
-          route: request.routerPath,
-          status: reply.statusCode.toString(),
-        })
-        .inc()
-    }
+  app.addHook("onResponse", async (req, reply) => {
+    // fallback completo
+    const rawUrl = req.url
+    const method = req.method
+    const status = reply.statusCode.toString()
+
+    const route =
+      (reply.context?.config?.url as string) ??
+      (req as any).routerPath ??
+      rawUrl ??
+      "unknown"
+
+    console.log("🔥 MÉTRICA", { method, route, status })
+
+    httpRequestCounter
+      .labels({
+        method,
+        route,
+        status,
+      })
+      .inc()
   })
 }
