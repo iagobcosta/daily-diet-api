@@ -9,7 +9,7 @@ describe("Meals Routes", () => {
       email: "joao@diet.com",
     })
 
-    expect(createUserResponse.statusCode).toBe(200)
+    expect(createUserResponse.statusCode).toBe(201)
     expect(createUserResponse.headers["set-cookie"]).toBeDefined()
 
     const cookies = createUserResponse.get("Set-Cookie")
